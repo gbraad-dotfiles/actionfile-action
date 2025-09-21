@@ -1,0 +1,40 @@
+name: "gbraad's Dotfiles `action` Actionfile executor"
+description: 'Wrapper for action command execution on GitHub runners'
+author: "Gerard Braad <me@gbraad.nl>"
+inputs:
+  file:
+    description: 'The Actionfile to use'
+    required: true
+    default: '.'
+  action:
+    description: 'Command to execute'
+    required: false
+    default: 'default'
+  context:
+    description: 'Optional packager or OS to use (fedora, dnf, brew, etc.)'
+    required: false
+    default: ''
+  args:
+    description: 'Optional arguments (--background, --evaluate, etc.)'
+    required: false
+    default: ''
+  as_user:
+    description: 'User to run the commands as (optional)'
+    required: false
+    default: ""
+runs:
+  using: 'composite'
+  steps:
+    - name: Execute action command
+      uses: gbraad-actions/zsh-action@main
+      with:
+        as_user: ${{ inputs.as_user }}
+        run: |
+          # Check if action function exists
+          if ! type action >/dev/null 2>&1; then
+            echo "Error: action function is not defined. Please make sure to run install first"
+            exit 1
+          fi
+          
+          # Execute action command
+          action ${{ inputs.file }} ${{ inputs.action }} ${{ inputs.context }} ${{ inputs.args }}
