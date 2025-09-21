@@ -9,7 +9,8 @@ Runs `action` from my dotfiles to run [Actionfiles](https://github.com/actionfil
       - name: Setup environment
         uses: gbraad-dotfiles/install-action@main
 
-      ... checkout code ...
+      - name: Checkout source repository
+        uses: actions/checkout@v2    
 
       - name: Use actionfile to compile crc
         uses: gbraad-dotfiles/actionfile-action@main
@@ -17,3 +18,5 @@ Runs `action` from my dotfiles to run [Actionfiles](https://github.com/actionfil
           file: ./crc.md
           action: compile devenv
 ```
+
+Examples of [my actionfiles](https://github.com/gbraad-dotfiles/actionfiles) show how this can be used to compile projects and automate other tasks.
